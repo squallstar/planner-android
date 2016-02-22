@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -18,6 +21,7 @@ import com.orm.SugarContext;
 import java.util.List;
 
 import it.squallstar.planner.adapters.TripsAdapter;
+import it.squallstar.planner.helpers.PlannerTypefaceSpan;
 import it.squallstar.planner.models.Trip;
 
 public class ProjectsActivity extends AppCompatActivity {
@@ -32,6 +36,14 @@ public class ProjectsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projects);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        SpannableString s = new SpannableString("My Title");
+        s.setSpan(new PlannerTypefaceSpan(this, "KaushanScript-Regular.otf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        toolbar.setTitle(s);
+
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
