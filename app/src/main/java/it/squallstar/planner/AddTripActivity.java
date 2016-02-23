@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -32,15 +34,21 @@ public class AddTripActivity extends AppCompatActivity {
         final int mainColor = Color.parseColor("#FFFFFF");
         final int altColor = getResources().getColor(R.color.colorPrimary);
 
-        tripName.setOnKeyListener(new View.OnKeyListener() {
+        tripName.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                String text = tripName.getText().toString();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                tripName.setTextColor(text.length() > 0 ? mainColor : altColor);
-                tripName.getRootView().setBackgroundColor(text.length() > 0 ? altColor : mainColor);
+            }
 
-                return false;
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tripName.setTextColor(s.length() > 0 ? mainColor : altColor);
+                tripName.getRootView().setBackgroundColor(s.length() > 0 ? altColor : mainColor);
             }
         });
 
