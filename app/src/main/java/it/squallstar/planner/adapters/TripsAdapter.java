@@ -25,11 +25,13 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         // each data item is just a string in this case
         public View mView;
         public TextView nameTextView;
+        public TextView locationTextView;
 
         public ViewHolder(View v) {
             super(v);
             mView = v;
             nameTextView = (TextView) mView.findViewById(R.id.tripTitle);
+            locationTextView = (TextView) mView.findViewById(R.id.tripLocation);
         }
     }
 
@@ -56,6 +58,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         Trip trip = mDataset.get(position);
 
         holder.nameTextView.setText(trip.name);
+        holder.locationTextView.setText(trip.location);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

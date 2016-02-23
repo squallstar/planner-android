@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
@@ -28,11 +29,11 @@ public class AddTripDetailsActivity extends AppCompatActivity {
         final String tripName = getIntent().getStringExtra("tripName");
         getSupportActionBar().setTitle(tripName);
 
+        final Trip trip = new Trip();
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Trip trip = new Trip();
                 trip.name = tripName;
                 trip.save();
 
@@ -46,10 +47,16 @@ public class AddTripDetailsActivity extends AppCompatActivity {
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
+        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
+                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_REGIONS)
+                .build();
+
+        autocompleteFragment.setFilter(typeFilter);
+
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
+                trip.location = place.getName().toString();
             }
 
             @Override
