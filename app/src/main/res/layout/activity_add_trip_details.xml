@@ -17,6 +17,20 @@
         android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="From"
+        android:onClick="showDatePickerDialog"
+        android:id="@+id/dateFrom" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To"
+        android:onClick="showDatePickerDialog"
+        android:id="@+id/dateTo" />
+
 
     <Button
         android:layout_width="wrap_content"

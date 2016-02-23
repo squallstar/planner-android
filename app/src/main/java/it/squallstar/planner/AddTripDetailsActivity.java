@@ -12,13 +12,26 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import it.squallstar.planner.helpers.DatePickerFragment;
 import it.squallstar.planner.models.Trip;
 
 public class AddTripDetailsActivity extends AppCompatActivity {
     @Bind(R.id.createButton)
     Button createButton;
+
+    @Bind(R.id.dateFrom)
+    Button dateFrom;
+
+    @Bind(R.id.dateTo)
+    Button dateTo;
+
+    private GregorianCalendar current_start_date;
+    private GregorianCalendar current_end_date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,5 +77,55 @@ public class AddTripDetailsActivity extends AppCompatActivity {
                 // TODO: Handle the error.
             }
         });
+    }
+
+    public void showDatePickerDialog(final View v) {
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.show(getFragmentManager(), "datePicker");
+
+        datePickerFragment.setListener(new DatePickerFragment.OnDateListener() {
+            @Override
+            public void onDateSet(int year, int month, int day) {
+                GregorianCalendar calendar = new GregorianCalendar(year, month, day);
+
+                if (v.getId() == R.id.dateFrom) {
+                    current_start_date = calendar;
+                    if (current_end_date != null) {
+                        if (current_end_date.compareTo(calendar) == -1) {
+                            return;
+                        }
+                    }
+                } else {
+                    if (current_start_date != null) {
+                        if (current_start_date.compareTo(calendar) == 1) {
+                            return;
+                        }
+                    }
+                    current_end_date = calendar;
+                }
+
+                updateDateFilterUI();
+            }
+        });
+    }
+
+    private void updateDateFilterUI() {
+
+        if (current_start_date != null) {
+            dateFrom.setText(formatDate(current_start_date));
+        } else {
+            dateFrom.setText("To");
+        }
+
+        if (current_end_date != null) {
+            dateTo.setText(formatDate(current_end_date));
+        } else {
+            dateTo.setText("-");
+        }
+    }
+
+    private String formatDate(GregorianCalendar calendar) {
+        SimpleDateFormat format = new SimpleDateFormat("MMM d, yyyy");
+        return format.format(calendar.getTime());
     }
 }
